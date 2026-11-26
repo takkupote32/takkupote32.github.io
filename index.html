@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Web Tools Portal</title>
+  <title>takkupote32 Web Tools Portal</title>
   <style>
     :root {
       --bg-color: #f8fafc;
@@ -176,11 +176,8 @@
   </div>
 
   <script>
-    // ▼ ここにあなたのGitHubユーザー名を入力してください
-    const GITHUB_USERNAME = "ここにGitHubユーザー名を入力";
-
-    // ポータル自身（username.github.io）を一覧から除外する設定
-    const EXCLUDE_REPOS = [`${GITHUB_USERNAME.toLowerCase()}.github.io`];
+    const GITHUB_USERNAME = "takkupote32";
+    const EXCLUDE_REPOS = ["takkupote32.github.io"];
 
     const gridEl = document.getElementById("toolGrid");
     const statusEl = document.getElementById("status");
@@ -189,18 +186,12 @@
     let allTools = [];
 
     async function fetchTools() {
-      if (GITHUB_USERNAME === "ここにGitHubユーザー名を入力" || !GITHUB_USERNAME) {
-        statusEl.textContent = "HTML内の GITHUB_USERNAME にご自身のユーザー名を設定してください。";
-        return;
-      }
-
       try {
         const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`);
         if (!response.ok) throw new Error("リポジトリの取得に失敗しました");
 
         const repos = await response.json();
 
-        // GitHub Pagesが有効（has_pages === true）かつ除外リストにないリポジトリを抽出
         allTools = repos.filter(repo =>
           repo.has_pages && !EXCLUDE_REPOS.includes(repo.name.toLowerCase())
         );
@@ -228,7 +219,6 @@
       statusEl.style.display = "none";
 
       tools.forEach(repo => {
-        // カスタムドメイン(homepage)が設定されていればそちらを優先、なければ標準のPages URLを使用
         const pageUrl = repo.homepage && repo.homepage.startsWith("http")
           ? repo.homepage
           : `https://${GITHUB_USERNAME}.github.io/${repo.name}/`;
@@ -263,7 +253,6 @@
         .replace(/'/g, "&#39;");
     }
 
-    // リアルタイム検索フィルター
     searchInput.addEventListener("input", (e) => {
       const keyword = e.target.value.toLowerCase().trim();
       const filtered = allTools.filter(repo =>
