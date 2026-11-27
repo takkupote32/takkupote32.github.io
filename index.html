@@ -7,40 +7,28 @@
   <style>
     :root {
       --bg: #f4f6fb;
-      --bg-gradient: radial-gradient(circle at 15% 10%, rgba(59, 130, 246, 0.08), transparent 40%),
-                     radial-gradient(circle at 85% 20%, rgba(139, 92, 246, 0.08), transparent 40%);
-      --surface: rgba(255, 255, 255, 0.92);
-      --surface-solid: #ffffff;
+      --surface: #ffffff;
       --text-main: #0f172a;
       --text-sub: #475569;
-      --text-muted: #94a3b8;
-      --border: rgba(148, 163, 184, 0.3);
-      --border-hover: rgba(59, 130, 246, 0.5);
-      --accent: #3b82f6;
-      --accent-gradient: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-      --tag-bg: rgba(59, 130, 246, 0.1);
-      --tag-text: #2563eb;
-      --shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06);
-      --shadow-hover: 0 14px 28px -6px rgba(37, 99, 235, 0.14);
+      --text-muted: #64748b;
+      --border: #cbd5e1;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --tag-bg: #eff6ff;
+      --tag-text: #1d4ed8;
     }
 
     [data-theme="dark"] {
-      --bg: #0b1120;
-      --bg-gradient: radial-gradient(circle at 15% 10%, rgba(59, 130, 246, 0.15), transparent 45%),
-                     radial-gradient(circle at 85% 20%, rgba(139, 92, 246, 0.15), transparent 45%);
-      --surface: rgba(30, 41, 59, 0.88);
-      --surface-solid: #1e293b;
+      --bg: #0f172a;
+      --surface: #1e293b;
       --text-main: #f8fafc;
       --text-sub: #cbd5e1;
-      --text-muted: #64748b;
-      --border: rgba(148, 163, 184, 0.2);
-      --border-hover: rgba(96, 165, 250, 0.5);
-      --accent: #60a5fa;
-      --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-      --tag-bg: rgba(96, 165, 250, 0.15);
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --accent: #3b82f6;
+      --accent-hover: #60a5fa;
+      --tag-bg: #172554;
       --tag-text: #93c5fd;
-      --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
-      --shadow-hover: 0 14px 28px -6px rgba(0, 0, 0, 0.5);
     }
 
     * {
@@ -52,494 +40,77 @@
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
       background-color: var(--bg);
-      background-image: var(--bg-gradient);
-      background-attachment: fixed;
       color: var(--text-main);
       line-height: 1.6;
-      min-height: 100vh;
-      transition: background-color 0.3s ease, color 0.3s ease;
+      padding: 2rem 1rem 4rem;
     }
 
     .container {
-      max-width: 1080px;
+      max-width: 1000px;
       margin: 0 auto;
-      padding: 2.5rem 1.25rem 4rem;
     }
 
     .topbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
     }
 
     .brand {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
       font-weight: 700;
-      font-size: 0.95rem;
       color: var(--text-sub);
       text-decoration: none;
     }
 
-    .brand-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #2563eb;
-      background: var(--accent-gradient);
-    }
-
     .theme-btn {
       background: var(--surface);
-      border: 1px solid var(--border);
       color: var(--text-main);
+      border: 1px solid var(--border);
       padding: 0.45rem 0.85rem;
-      border-radius: 999px;
+      border-radius: 8px;
       font-size: 0.85rem;
       cursor: pointer;
     }
 
     header {
       text-align: center;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
     }
 
     header h1 {
-      font-size: 2.2rem;
+      font-size: 2rem;
       font-weight: 800;
-      letter-spacing: -0.02em;
-      color: var(--accent);
-      margin-bottom: 0.6rem;
-    }
-
-    @supports (-webkit-background-clip: text) or (background-clip: text) {
-      header h1 {
-        background: var(--accent-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
+      margin-bottom: 0.5rem;
     }
 
     header p {
       color: var(--text-sub);
-      font-size: 1rem;
-      max-width: 540px;
-      margin: 0 auto;
     }
 
-    .controls {
-      max-width: 640px;
-      margin: 1.75rem auto 0;
+    .search-box {
+      max-width: 480px;
+      margin: 1.25rem auto 0;
     }
 
-    .search-wrapper {
-      position: relative;
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-muted);
-      pointer-events: none;
-      font-size: 0.95rem;
-    }
-
-    .search-wrapper input {
+    .search-box input {
       width: 100%;
-      padding: 0.85rem 1rem 0.85rem 2.6rem;
+      padding: 0.75rem 1rem;
       font-size: 0.95rem;
       background: var(--surface);
       color: var(--text-main);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      outline: none;
-      box-shadow: var(--shadow);
-    }
-
-    .search-wrapper input:focus {
-      border-color: var(--accent);
-    }
-
-    .filter-tags {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-top: 1rem;
-    }
-
-    .filter-chip {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text-sub);
-      padding: 0.3rem 0.85rem;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      cursor: pointer;
-    }
-
-    .filter-chip:hover,
-    .filter-chip.active {
-      background: #2563eb;
-      background: var(--accent-gradient);
-      color: #ffffff;
-      border-color: transparent;
-    }
-
-    .status {
-      text-align: center;
-      color: var(--text-sub);
-      margin: 2rem 0;
-      font-size: 0.95rem;
+      border-radius: 10px;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.5rem;
     }
 
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 1.6rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      box-shadow: var(--shadow);
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-hover);
-      border-color: var(--border-hover);
-    }
-
-    .card-header {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.85rem;
-      margin-bottom: 0.85rem;
-    }
-
-    .card-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: var(--tag-bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      flex-shrink: 0;
-    }
-
-    .card-title-group {
-      min-width: 0;
-    }
-
-    .card h2 {
-      font-size: 1.15rem;
-      font-weight: 700;
-      line-height: 1.35;
-      word-break: break-word;
-    }
-
-    .repo-slug {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    }
-
-    .card-desc {
-      color: var(--text-sub);
-      font-size: 0.9rem;
-      margin-bottom: 1.25rem;
-      flex-grow: 1;
-    }
-
-    .topics {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .tag {
-      background: var(--tag-bg);
-      color: var(--tag-text);
-      font-size: 0.74rem;
-      padding: 0.2rem 0.65rem;
-      border-radius: 999px;
-      font-weight: 600;
-    }
-
-    .card-footer {
-      border-top: 1px solid var(--border);
-      padding-top: 1rem;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-    }
-
-    .card-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .btn-code {
-      color: var(--text-sub);
-      text-decoration: none;
-      font-size: 0.82rem;
-      padding: 0.45rem 0.7rem;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-    }
-
-    .btn-code:hover {
-      color: var(--text-main);
-      border-color: var(--border-hover);
-      background: var(--surface-solid);
-    }
-
-    .btn-open {
-      background: #2563eb;
-      background: var(--accent-gradient);
-      color: #ffffff;
-      text-decoration: none;
-      padding: 0.48rem 1rem;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-
-    .btn-open:hover {
-      opacity: 0.92;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 4rem;
-      color: var(--text-muted);
-      font-size: 0.82rem;
-    }
-
-    footer a {
-      color: var(--text-sub);
-      text-decoration: none;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <nav class="topbar">
-      <a href="https://github.com/takkupote32" target="_blank" rel="noopener noreferrer" class="brand">
-        <span class="brand-dot"></span>
-        <span>@takkupote32</span>
-      </a>
-      <button id="themeToggle" class="theme-btn" type="button">🌙 ダーク</button>
-    </nav>
-
-    <header>
-      <h1>Web Tools Portal</h1>
-      <p>ブラウザですぐに使える自作Webアプリケーション・ツール集</p>
-      <div class="controls">
-        <div class="search-wrapper">
-          <span class="search-icon">🔍</span>
-          <input type="text" id="searchInput" placeholder="ツール名・キーワードで検索...">
-        </div>
-        <div id="filterTags" class="filter-tags"></div>
-      </div>
-    </header>
-
-    <div id="status" class="status" style="display:none;"></div>
-    <main id="toolGrid" class="grid"></main>
-
-    <footer>
-      <p>Hosted on GitHub Pages &bull; <a href="https://github.com/takkupote32" target="_blank" rel="noopener noreferrer">GitHub Profile</a></p>
-    </footer>
-  </div>
-
-  <script>
-    var GITHUB_USERNAME = "takkupote32";
-
-    var TOOLS_LIST = [
-      {
-        repo: "hyakuninissyu",
-        title: "百人一首 Webツール",
-        url: "https://takkupote32.github.io/haykuninissyu/",
-        icon: "🎴",
-        description: "百人一首の学習・練習ができるWebアプリ",
-        topics: ["百人一首", "学習"]
-      },
-      {
-        repo: "ios12rt",
-        title: "診療報酬シミュレータ2026",
-        url: "https://takkupote32.github.io/ios12rt/",
-        icon: "🧮",
-        description: "診療報酬シミュレータ2026",
-        topics: ["診療報酬", "シミュレータ"]
-      }
-    ];
-
-    var gridEl = document.getElementById("toolGrid");
-    var statusEl = document.getElementById("status");
-    var searchInput = document.getElementById("searchInput");
-    var filterTagsEl = document.getElementById("filterTags");
-    var themeToggle = document.getElementById("themeToggle");
-
-    var selectedTopic = "";
-
-    function initTheme() {
-      var saved = null;
-      try {
-        saved = localStorage.getItem("portal-theme");
-      } catch (e) {}
-      var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-      var theme = saved || (prefersDark ? "dark" : "light");
-      applyTheme(theme);
-    }
-
-    function applyTheme(theme) {
-      document.documentElement.setAttribute("data-theme", theme);
-      themeToggle.textContent = theme === "dark" ? "☀️ ライト" : "🌙 ダーク";
-      try {
-        localStorage.setItem("portal-theme", theme);
-      } catch (e) {}
-    }
-
-    themeToggle.addEventListener("click", function () {
-      var current = document.documentElement.getAttribute("data-theme");
-      applyTheme(current === "dark" ? "light" : "dark");
-    });
-
-    function normalizeTools(list) {
-      var normalized = [];
-      for (var i = 0; i < list.length; i++) {
-        var item = list[i];
-        var repoName = item.repo || "";
-        var defaultUrl = repoName ? ("https://" + GITHUB_USERNAME + ".github.io/" + repoName + "/") : "#";
-        var repoUrl = repoName ? ("https://github.com/" + GITHUB_USERNAME + "/" + repoName) : "";
-
-        normalized.push({
-          repo: repoName,
-          title: item.title || repoName || "名称未設定ツール",
-          url: item.url || defaultUrl,
-          repoUrl: item.repoUrl || repoUrl,
-          icon: item.icon || "🛠️",
-          description: item.description || "GitHub Pagesで公開中のWebツール",
-          topics: item.topics || []
-        });
-      }
-      return normalized;
-    }
-
-    var allTools = normalizeTools(TOOLS_LIST);
-
-    function renderFilterChips(tools) {
-      filterTagsEl.innerHTML = "";
-      var topicMap = {};
-      var topics = [];
-
-      for (var i = 0; i < tools.length; i++) {
-        var tList = tools[i].topics || [];
-        for (var j = 0; j < tList.length; j++) {
-          if (!topicMap[tList[j]]) {
-            topicMap[tList[j]] = true;
-            topics.push(tList[j]);
-          }
-        }
-      }
-
-      if (topics.length === 0) return;
-
-      var allBtn = createChip("すべて", "");
-      if (selectedTopic === "") allBtn.classList.add("active");
-      filterTagsEl.appendChild(allBtn);
-
-      for (var k = 0; k < topics.length; k++) {
-        var chip = createChip("#" + topics[k], topics[k]);
-        if (selectedTopic === topics[k]) chip.classList.add("active");
-        filterTagsEl.appendChild(chip);
-      }
-    }
-
-    function createChip(label, topicValue) {
-      var btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "filter-chip";
-      btn.textContent = label;
-      btn.addEventListener("click", function () {
-        selectedTopic = topicValue;
-        var chips = document.querySelectorAll(".filter-chip");
-        for (var i = 0; i < chips.length; i++) {
-          chips[i].classList.remove("active");
-        }
-        btn.classList.add("active");
-        filterAndRender();
-      });
-      return btn;
-    }
-
-    function renderTools(tools) {
-      gridEl.innerHTML = "";
-
-      if (tools.length === 0) {
-        statusEl.style.display = "block";
-        statusEl.textContent = "条件に一致するツールが見つかりません。";
-        return;
-      }
-      statusEl.style.display = "none";
-
-      for (var i = 0; i < tools.length; i++) {
-        var tool = tools[i];
-        var topicsHtml = "";
-        for (var j = 0; j < tool.topics.length; j++) {
-          topicsHtml += '<span class="tag">#' + escapeHtml(tool.topics[j]) + '</span>';
-        }
-
-        var codeButtonHtml = tool.repoUrl
-          ? '<a href="' + escapeHtml(tool.repoUrl) + '" target="_blank" rel="noopener noreferrer" class="btn-code">Code</a>'
-          : '';
-
-        var card = document.createElement("article");
-        card.className = "card";
-        card.innerHTML =
-          '<div>' +
-            '<div class="card-header">' +
-              '<div class="card-icon">' + escapeHtml(tool.icon) + '</div>' +
-              '<div class="card-title-group">' +
-                '<h2>' + escapeHtml(tool.title) + '</h2>' +
-                '<div class="repo-slug">' + escapeHtml(tool.repo) + '</div>' +
-              '</div>' +
-            '</div>' +
-            '<p class="card-desc">' + escapeHtml(tool.description) + '</p>' +
-            (topicsHtml ? '<div class="topics">' + topicsHtml + '</div>' : '') +
-          '</div>' +
-          '<div class="card-footer">' +
-            '<div class="card-actions">' +
-              codeButtonHtml +
-              '<a href="' + escapeHtml(tool.url) + '" target="_blank" rel="noopener noreferrer" class="btn-open">開く &rarr;</a>' +
-            '</div>' +
-          '</div>';
-        gridEl.appendChild(card);
-      }
-    }
-
-    function filterAndRender() {
-      var keyword = searchInput.value.toLowerCase().trim();
-      var filtered = [];
-
-      for (var i = 0; i < allTools.length; i++) {
-        var tool = allTools[i];
-        var matchesTopic = !selectedTopic || (tool.topics && tool.topics.indexOf(selectedTopic) !== -1);
-        var inTopics = false;
-        for (var j = 0; j < tool.topics.length; j++) {
-          if (tool.topics[j].toLowerCase().indexOf(keyword) !== -1)
+      border-radius: 1
