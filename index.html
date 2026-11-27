@@ -9,7 +9,7 @@
       --bg: #f4f6fb;
       --bg-gradient: radial-gradient(circle at 15% 10%, rgba(59, 130, 246, 0.08), transparent 40%),
                      radial-gradient(circle at 85% 20%, rgba(139, 92, 246, 0.08), transparent 40%);
-      --surface: rgba(255, 255, 255, 0.9);
+      --surface: rgba(255, 255, 255, 0.92);
       --surface-solid: #ffffff;
       --text-main: #0f172a;
       --text-sub: #475569;
@@ -28,7 +28,7 @@
       --bg: #0b1120;
       --bg-gradient: radial-gradient(circle at 15% 10%, rgba(59, 130, 246, 0.15), transparent 45%),
                      radial-gradient(circle at 85% 20%, rgba(139, 92, 246, 0.15), transparent 45%);
-      --surface: rgba(30, 41, 59, 0.85);
+      --surface: rgba(30, 41, 59, 0.88);
       --surface-solid: #1e293b;
       --text-main: #f8fafc;
       --text-sub: #cbd5e1;
@@ -194,7 +194,7 @@
       text-align: center;
       color: var(--text-sub);
       margin: 2rem 0;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
     }
 
     .grid {
@@ -284,14 +284,8 @@
       border-top: 1px solid var(--border);
       padding-top: 1rem;
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       align-items: center;
-      gap: 0.75rem;
-    }
-
-    .updated-date {
-      font-size: 0.76rem;
-      color: var(--text-muted);
     }
 
     .card-actions {
@@ -375,19 +369,28 @@
 
   <script>
     var GITHUB_USERNAME = "takkupote32";
-    var EXCLUDE_REPOS = ["takkupote32.github.io"];
 
-    // ▼ ここに登録したツールは通信状態に関わらず0秒で即座に表示されます
-    var CUSTOM_INFO = {
-      "hyakuninissyu": {
+    // ▼ ここに表示したいリポジトリ名と公開URLをリストで記述してください
+    // repoUrl を省略した場合は https://takkupote32.github.io/<repo>/ が自動で使われます
+    var TOOLS_LIST = [
+      {
+        repo: "hyakuninissyu",
         title: "百人一首 Webツール",
+        url: "https://takkupote32.github.io/haykuninissyu/",
         icon: "🎴",
         description: "百人一首の学習・練習ができるWebアプリ",
         topics: ["百人一首", "学習"]
       }
-      // 新しくツールを作ったら、同じ形式で下に書き足せます：
-      // "repo-name": { title: "ツール名", icon: "🧮", description: "説明文", topics: ["計算"] }
-    };
+      // 追加例：
+      {
+        repo: "",
+        title: "別のツール名",
+        url: "https://takkupote32.github.io/ios12rt/",
+        icon: "🧮",
+        description: "診療報酬シミュレータ2026",
+        topics: ["診療報酬", "シミュレータ"]
+      }
+    ];
 
     var gridEl = document.getElementById("toolGrid");
     var statusEl = document.getElementById("status");
@@ -395,7 +398,6 @@
     var filterTagsEl = document.getElementById("filterTags");
     var themeToggle = document.getElementById("themeToggle");
 
-    var allTools = [];
     var selectedTopic = "";
 
     function initTheme() {
@@ -421,37 +423,160 @@
       applyTheme(current === "dark" ? "light" : "dark");
     });
 
-    // CUSTOM_INFO から初期リストを作成（API失敗時の保険も兼ねる）
-    function getInitialTools() {
-      var list = [];
-      var keys = Object.keys(CUSTOM_INFO);
-      for (var i = 0; i < keys.length; i++) {
-        var repoName = keys[i];
-        var info = CUSTOM_INFO[repoName];
-        list.push({
-          name: repoName,
-          displayTitle: info.title || repoName,
-          displayIcon: info.icon || "🛠️",
-          displayDesc: info.description || "GitHub Pagesで公開中のWebツール",
-          topics: info.topics || [],
-          pageUrl: "https://" + GITHUB_USERNAME + ".github.io/" + repoName + "/",
-          html_url: "https://github.com/" + GITHUB_USERNAME + "/" + repoName,
-          updatedText: ""
+    function normalizeTools(list) {
+      var normalized = [];
+      for (var i = 0; i < list.length; i++) {
+        var item = list[i];
+        var repoName = item.repo || "";
+        var defaultUrl = repoName ? ("https://" + GITHUB_USERNAME + ".github.io/" + repoName + "/") : "#";
+        var repoUrl = repoName ? ("https://github.com/" + GITHUB_USERNAME + "/" + repoName) : "";
+
+        normalized.push({
+          repo: repoName,
+          title: item.title || repoName || "名称未設定ツール",
+          url: item.url || defaultUrl,
+          repoUrl: item.repoUrl || repoUrl,
+          icon: item.icon || "🛠️",
+          description: item.description || "GitHub Pagesで公開中のWebツール",
+          topics: item.topics || []
         });
       }
-      return list;
+      return normalized;
     }
 
-    function fetchTools() {
-      // 1. まず登録済みのツールを即座に描画する
-      allTools = getInitialTools();
-      renderFilterChips(allTools);
-      renderTools(allTools);
+    var allTools = normalizeTools(TOOLS_LIST);
 
-      // 2. バックグラウンドでGitHub APIから最新のリポジトリ一覧を取得して統合
-      var xhr = new XMLHttpRequest();
-      xhr.open("GET", "https://api.github.com/users/" + GITHUB_USERNAME + "/repos?per_page=100&sort=updated", true);
-      xhr.onload = function () {
-        if (xhr.status >= 200 && xhr.status < 300) {
-          try {
-            var repos = JSON.parse(xhr.responseText);
+    function renderFilterChips(tools) {
+      filterTagsEl.innerHTML = "";
+      var topicMap = {};
+      var topics = [];
+
+      for (var i = 0; i < tools.length; i++) {
+        var tList = tools[i].topics || [];
+        for (var j = 0; j < tList.length; j++) {
+          if (!topicMap[tList[j]]) {
+            topicMap[tList[j]] = true;
+            topics.push(tList[j]);
+          }
+        }
+      }
+
+      if (topics.length === 0) return;
+
+      var allBtn = createChip("すべて", "");
+      if (selectedTopic === "") allBtn.classList.add("active");
+      filterTagsEl.appendChild(allBtn);
+
+      for (var k = 0; k < topics.length; k++) {
+        var chip = createChip("#" + topics[k], topics[k]);
+        if (selectedTopic === topics[k]) chip.classList.add("active");
+        filterTagsEl.appendChild(chip);
+      }
+    }
+
+    function createChip(label, topicValue) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "filter-chip";
+      btn.textContent = label;
+      btn.addEventListener("click", function () {
+        selectedTopic = topicValue;
+        var chips = document.querySelectorAll(".filter-chip");
+        for (var i = 0; i < chips.length; i++) {
+          chips[i].classList.remove("active");
+        }
+        btn.classList.add("active");
+        filterAndRender();
+      });
+      return btn;
+    }
+
+    function renderTools(tools) {
+      gridEl.innerHTML = "";
+
+      if (tools.length === 0) {
+        statusEl.style.display = "block";
+        statusEl.textContent = "条件に一致するツールが見つかりません。";
+        return;
+      }
+      statusEl.style.display = "none";
+
+      for (var i = 0; i < tools.length; i++) {
+        var tool = tools[i];
+        var topicsHtml = "";
+        for (var j = 0; j < tool.topics.length; j++) {
+          topicsHtml += '<span class="tag">#' + escapeHtml(tool.topics[j]) + '</span>';
+        }
+
+        var codeButtonHtml = tool.repoUrl
+          ? '<a href="' + escapeHtml(tool.repoUrl) + '" target="_blank" rel="noopener noreferrer" class="btn-code">Code</a>'
+          : '';
+
+        var card = document.createElement("article");
+        card.className = "card";
+        card.innerHTML =
+          '<div>' +
+            '<div class="card-header">' +
+              '<div class="card-icon">' + escapeHtml(tool.icon) + '</div>' +
+              '<div class="card-title-group">' +
+                '<h2>' + escapeHtml(tool.title) + '</h2>' +
+                '<div class="repo-slug">' + escapeHtml(tool.repo) + '</div>' +
+              '</div>' +
+            '</div>' +
+            '<p class="card-desc">' + escapeHtml(tool.description) + '</p>' +
+            (topicsHtml ? '<div class="topics">' + topicsHtml + '</div>' : '') +
+          '</div>' +
+          '<div class="card-footer">' +
+            '<div class="card-actions">' +
+              codeButtonHtml +
+              '<a href="' + escapeHtml(tool.url) + '" target="_blank" rel="noopener noreferrer" class="btn-open">開く &rarr;</a>' +
+            '</div>' +
+          '</div>';
+        gridEl.appendChild(card);
+      }
+    }
+
+    function filterAndRender() {
+      var keyword = searchInput.value.toLowerCase().trim();
+      var filtered = [];
+
+      for (var i = 0; i < allTools.length; i++) {
+        var tool = allTools[i];
+        var matchesTopic = !selectedTopic || (tool.topics && tool.topics.indexOf(selectedTopic) !== -1);
+        var inTopics = false;
+        for (var j = 0; j < tool.topics.length; j++) {
+          if (tool.topics[j].toLowerCase().indexOf(keyword) !== -1) {
+            inTopics = true;
+            break;
+          }
+        }
+        var matchesKeyword = !keyword ||
+          tool.title.toLowerCase().indexOf(keyword) !== -1 ||
+          tool.repo.toLowerCase().indexOf(keyword) !== -1 ||
+          tool.description.toLowerCase().indexOf(keyword) !== -1 ||
+          inTopics;
+
+        if (matchesTopic && matchesKeyword) {
+          filtered.push(tool);
+        }
+      }
+      renderTools(filtered);
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    searchInput.addEventListener("input", filterAndRender);
+
+    initTheme();
+    renderFilterChips(allTools);
+    renderTools(allTools);
+  </script>
+</body>
+</html>
