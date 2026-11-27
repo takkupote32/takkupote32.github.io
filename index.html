@@ -9,18 +9,18 @@
       --bg: #f4f6fb;
       --bg-gradient: radial-gradient(circle at 15% 10%, rgba(59, 130, 246, 0.08), transparent 40%),
                      radial-gradient(circle at 85% 20%, rgba(139, 92, 246, 0.08), transparent 40%);
-      --surface: rgba(255, 255, 255, 0.85);
+      --surface: rgba(255, 255, 255, 0.9);
       --surface-solid: #ffffff;
       --text-main: #0f172a;
       --text-sub: #475569;
       --text-muted: #94a3b8;
-      --border: rgba(148, 163, 184, 0.25);
+      --border: rgba(148, 163, 184, 0.3);
       --border-hover: rgba(59, 130, 246, 0.5);
       --accent: #3b82f6;
       --accent-gradient: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
       --tag-bg: rgba(59, 130, 246, 0.1);
       --tag-text: #2563eb;
-      --shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+      --shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06);
       --shadow-hover: 0 14px 28px -6px rgba(37, 99, 235, 0.14);
     }
 
@@ -28,12 +28,12 @@
       --bg: #0b1120;
       --bg-gradient: radial-gradient(circle at 15% 10%, rgba(59, 130, 246, 0.15), transparent 45%),
                      radial-gradient(circle at 85% 20%, rgba(139, 92, 246, 0.15), transparent 45%);
-      --surface: rgba(30, 41, 59, 0.75);
+      --surface: rgba(30, 41, 59, 0.85);
       --surface-solid: #1e293b;
       --text-main: #f8fafc;
       --text-sub: #cbd5e1;
       --text-muted: #64748b;
-      --border: rgba(148, 163, 184, 0.15);
+      --border: rgba(148, 163, 184, 0.2);
       --border-hover: rgba(96, 165, 250, 0.5);
       --accent: #60a5fa;
       --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
@@ -66,7 +66,6 @@
       padding: 2.5rem 1.25rem 4rem;
     }
 
-    /* Top Bar */
     .topbar {
       display: flex;
       justify-content: space-between;
@@ -88,6 +87,7 @@
       width: 10px;
       height: 10px;
       border-radius: 50%;
+      background: #2563eb;
       background: var(--accent-gradient);
     }
 
@@ -99,29 +99,27 @@
       border-radius: 999px;
       font-size: 0.85rem;
       cursor: pointer;
-      backdrop-filter: blur(8px);
-      transition: all 0.2s ease;
     }
 
-    .theme-btn:hover {
-      border-color: var(--border-hover);
-      transform: translateY(-1px);
-    }
-
-    /* Hero Header */
     header {
       text-align: center;
       margin-bottom: 2.5rem;
     }
 
     header h1 {
-      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-size: 2.2rem;
       font-weight: 800;
       letter-spacing: -0.02em;
-      background: var(--accent-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--accent);
       margin-bottom: 0.6rem;
+    }
+
+    @supports (-webkit-background-clip: text) or (background-clip: text) {
+      header h1 {
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
     }
 
     header p {
@@ -131,7 +129,6 @@
       margin: 0 auto;
     }
 
-    /* Search & Filter */
     .controls {
       max-width: 640px;
       margin: 1.75rem auto 0;
@@ -160,14 +157,11 @@
       border: 1px solid var(--border);
       border-radius: 14px;
       outline: none;
-      backdrop-filter: blur(10px);
       box-shadow: var(--shadow);
-      transition: all 0.2s ease;
     }
 
     .search-wrapper input:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
     }
 
     .filter-tags {
@@ -186,31 +180,29 @@
       border-radius: 999px;
       font-size: 0.8rem;
       cursor: pointer;
-      transition: all 0.15s ease;
     }
 
     .filter-chip:hover,
     .filter-chip.active {
+      background: #2563eb;
       background: var(--accent-gradient);
       color: #ffffff;
       border-color: transparent;
     }
 
-    /* Status & Grid */
     .status {
       text-align: center;
       color: var(--text-sub);
-      margin: 3rem 0;
-      font-size: 0.95rem;
+      margin: 2rem 0;
+      font-size: 0.9rem;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
       gap: 1.5rem;
     }
 
-    /* Card */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -219,11 +211,8 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      backdrop-filter: blur(12px);
       box-shadow: var(--shadow);
-      transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
-                  box-shadow 0.2s ease,
-                  border-color 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
 
     .card:hover {
@@ -318,7 +307,6 @@
       padding: 0.45rem 0.7rem;
       border-radius: 8px;
       border: 1px solid var(--border);
-      transition: all 0.15s ease;
     }
 
     .btn-code:hover {
@@ -328,6 +316,7 @@
     }
 
     .btn-open {
+      background: #2563eb;
       background: var(--accent-gradient);
       color: #ffffff;
       text-decoration: none;
@@ -335,13 +324,10 @@
       border-radius: 8px;
       font-size: 0.85rem;
       font-weight: 600;
-      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
-      transition: opacity 0.15s ease, transform 0.15s ease;
     }
 
     .btn-open:hover {
       opacity: 0.92;
-      transform: translateY(-1px);
     }
 
     footer {
@@ -354,10 +340,6 @@
     footer a {
       color: var(--text-sub);
       text-decoration: none;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
     }
   </style>
 </head>
@@ -383,7 +365,7 @@
       </div>
     </header>
 
-    <div id="status" class="status">ツールを読み込み中...</div>
+    <div id="status" class="status" style="display:none;"></div>
     <main id="toolGrid" class="grid"></main>
 
     <footer>
@@ -392,48 +374,84 @@
   </div>
 
   <script>
-    const GITHUB_USERNAME = "takkupote32";
-    const EXCLUDE_REPOS = ["takkupote32.github.io"];
+    var GITHUB_USERNAME = "takkupote32";
+    var EXCLUDE_REPOS = ["takkupote32.github.io"];
 
-    // ▼ リポジトリごとの日本語タイトル・アイコン・説明のカスタム設定（任意）
-    // ここに書かなくても、新しく公開したリポジトリは自動で一覧に追加されます
-    const CUSTOM_INFO = {
+    // ▼ ここに登録したツールは通信状態に関わらず0秒で即座に表示されます
+    var CUSTOM_INFO = {
       "haykuninissyu": {
         title: "百人一首 Webツール",
         icon: "🎴",
-        description: "百人一首の学習・練習ができるWebアプリ"
+        description: "百人一首の学習・練習ができるWebアプリ",
+        topics: ["百人一首", "学習"]
       }
-      // 新しいツールを追加したい場合は以下のように書き足せます：
-      // "repo-name": { title: "日本語タイトル", icon: "🧮", description: "説明文" }
+      // 新しくツールを作ったら、同じ形式で下に書き足せます：
+      // "repo-name": { title: "ツール名", icon: "🧮", description: "説明文", topics: ["計算"] }
     };
 
-    const gridEl = document.getElementById("toolGrid");
-    const statusEl = document.getElementById("status");
-    const searchInput = document.getElementById("searchInput");
-    const filterTagsEl = document.getElementById("filterTags");
-    const themeToggle = document.getElementById("themeToggle");
+    var gridEl = document.getElementById("toolGrid");
+    var statusEl = document.getElementById("status");
+    var searchInput = document.getElementById("searchInput");
+    var filterTagsEl = document.getElementById("filterTags");
+    var themeToggle = document.getElementById("themeToggle");
 
-    let allTools = [];
-    let selectedTopic = "";
+    var allTools = [];
+    var selectedTopic = "";
 
-    // テーマ切り替え設定
     function initTheme() {
-      const saved = localStorage.getItem("portal-theme");
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      const theme = saved || (prefersDark ? "dark" : "light");
+      var saved = null;
+      try {
+        saved = localStorage.getItem("portal-theme");
+      } catch (e) {}
+      var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      var theme = saved || (prefersDark ? "dark" : "light");
       applyTheme(theme);
     }
 
     function applyTheme(theme) {
       document.documentElement.setAttribute("data-theme", theme);
       themeToggle.textContent = theme === "dark" ? "☀️ ライト" : "🌙 ダーク";
-      localStorage.setItem("portal-theme", theme);
+      try {
+        localStorage.setItem("portal-theme", theme);
+      } catch (e) {}
     }
 
-    themeToggle.addEventListener("click", () => {
-      const current = document.documentElement.getAttribute("data-theme");
+    themeToggle.addEventListener("click", function () {
+      var current = document.documentElement.getAttribute("data-theme");
       applyTheme(current === "dark" ? "light" : "dark");
     });
 
-    // リポジトリ一覧の取得
-    async function fetchTools()
+    // CUSTOM_INFO から初期リストを作成（API失敗時の保険も兼ねる）
+    function getInitialTools() {
+      var list = [];
+      var keys = Object.keys(CUSTOM_INFO);
+      for (var i = 0; i < keys.length; i++) {
+        var repoName = keys[i];
+        var info = CUSTOM_INFO[repoName];
+        list.push({
+          name: repoName,
+          displayTitle: info.title || repoName,
+          displayIcon: info.icon || "🛠️",
+          displayDesc: info.description || "GitHub Pagesで公開中のWebツール",
+          topics: info.topics || [],
+          pageUrl: "https://" + GITHUB_USERNAME + ".github.io/" + repoName + "/",
+          html_url: "https://github.com/" + GITHUB_USERNAME + "/" + repoName,
+          updatedText: ""
+        });
+      }
+      return list;
+    }
+
+    function fetchTools() {
+      // 1. まず登録済みのツールを即座に描画する
+      allTools = getInitialTools();
+      renderFilterChips(allTools);
+      renderTools(allTools);
+
+      // 2. バックグラウンドでGitHub APIから最新のリポジトリ一覧を取得して統合
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "https://api.github.com/users/" + GITHUB_USERNAME + "/repos?per_page=100&sort=updated", true);
+      xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          try {
+            var repos = JSON.parse(xhr.responseText);
