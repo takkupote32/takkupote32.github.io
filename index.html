@@ -113,4 +113,184 @@
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 1
+      border-radius: 14px;
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .icon {
+      font-size: 1.5rem;
+    }
+
+    .card h2 {
+      font-size: 1.15rem;
+    }
+
+    .slug {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .desc {
+      color: var(--text-sub);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .tag {
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      border-top: 1px solid var(--border);
+      padding-top: 0.9rem;
+    }
+
+    .btn-sub {
+      color: var(--text-sub);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 0.45rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .btn-main {
+      background: var(--accent);
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.45rem 0.95rem;
+      border-radius: 8px;
+    }
+
+    .btn-main:hover {
+      background: var(--accent-hover);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3.5rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: var(--text-sub);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="topbar">
+      <a class="brand" href="https://github.com/takkupote32" target="_blank" rel="noopener noreferrer">@takkupote32</a>
+      <button id="themeBtn" class="theme-btn" type="button">ダーク切替</button>
+    </nav>
+
+    <header>
+      <h1>Web Tools Portal</h1>
+      <p>公開中の自作Webツール一覧</p>
+      <div class="search-box">
+        <input id="searchInput" type="text" placeholder="ツール名や説明で検索...">
+      </div>
+    </header>
+
+    <main id="toolGrid" class="grid">
+      <article class="card" data-search="百人一首 haykuninissyu 学習">
+        <div>
+          <div class="card-top">
+            <span class="icon">🎴</span>
+            <div>
+              <h2>百人一首 Webツール</h2>
+              <div class="slug">haykuninissyu</div>
+            </div>
+          </div>
+          <p class="desc">百人一首の学習・練習ができるWebアプリ</p>
+          <div class="tags">
+            <span class="tag">#百人一首</span>
+            <span class="tag">#学習</span>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="btn-sub" href="https://github.com/takkupote32/haykuninissyu" target="_blank" rel="noopener noreferrer">Code</a>
+          <a class="btn-main" href="https://takkupote32.github.io/haykuninissyu/" target="_blank" rel="noopener noreferrer">開く</a>
+        </div>
+      </article>
+
+      <article class="card" data-search="診療報酬シミュレータ2026 ios12rt シミュレータ">
+        <div>
+          <div class="card-top">
+            <span class="icon">🧮</span>
+            <div>
+              <h2>診療報酬シミュレータ2026</h2>
+              <div class="slug">ios12rt</div>
+            </div>
+          </div>
+          <p class="desc">診療報酬シミュレータ2026</p>
+          <div class="tags">
+            <span class="tag">#診療報酬</span>
+            <span class="tag">#シミュレータ</span>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="btn-sub" href="https://github.com/takkupote32/ios12rt" target="_blank" rel="noopener noreferrer">Code</a>
+          <a class="btn-main" href="https://takkupote32.github.io/ios12rt/" target="_blank" rel="noopener noreferrer">開く</a>
+        </div>
+      </article>
+    </main>
+
+    <footer>
+      <p>Hosted on GitHub Pages &bull; <a href="https://github.com/takkupote32" target="_blank" rel="noopener noreferrer">GitHub Profile</a></p>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var searchInput = document.getElementById("searchInput");
+      var themeBtn = document.getElementById("themeBtn");
+      var cards = document.querySelectorAll("#toolGrid .card");
+
+      if (searchInput) {
+        searchInput.addEventListener("input", function () {
+          var q = searchInput.value.toLowerCase().replace(/^\s+|\s+$/g, "");
+          for (var i = 0; i < cards.length; i++) {
+            var text = (cards[i].getAttribute("data-search") || cards[i].textContent || "").toLowerCase();
+            cards[i].style.display = (!q || text.indexOf(q) !== -1) ? "" : "none";
+          }
+        });
+      }
+
+      if (themeBtn) {
+        themeBtn.addEventListener("click", function () {
+          var isDark = document.documentElement.getAttribute("data-theme") === "dark";
+          document.documentElement.setAttribute("data-theme", isDark ? "light" : "dark");
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
