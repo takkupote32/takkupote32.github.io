@@ -370,8 +370,6 @@
   <script>
     var GITHUB_USERNAME = "takkupote32";
 
-    // ▼ ここに表示したいリポジトリ名と公開URLをリストで記述してください
-    // repoUrl を省略した場合は https://takkupote32.github.io/<repo>/ が自動で使われます
     var TOOLS_LIST = [
       {
         repo: "hyakuninissyu",
@@ -380,11 +378,10 @@
         icon: "🎴",
         description: "百人一首の学習・練習ができるWebアプリ",
         topics: ["百人一首", "学習"]
-      }
-      // 追加例：
+      },
       {
-        repo: "",
-        title: "別のツール名",
+        repo: "ios12rt",
+        title: "診療報酬シミュレータ2026",
         url: "https://takkupote32.github.io/ios12rt/",
         icon: "🧮",
         description: "診療報酬シミュレータ2026",
@@ -545,38 +542,4 @@
         var matchesTopic = !selectedTopic || (tool.topics && tool.topics.indexOf(selectedTopic) !== -1);
         var inTopics = false;
         for (var j = 0; j < tool.topics.length; j++) {
-          if (tool.topics[j].toLowerCase().indexOf(keyword) !== -1) {
-            inTopics = true;
-            break;
-          }
-        }
-        var matchesKeyword = !keyword ||
-          tool.title.toLowerCase().indexOf(keyword) !== -1 ||
-          tool.repo.toLowerCase().indexOf(keyword) !== -1 ||
-          tool.description.toLowerCase().indexOf(keyword) !== -1 ||
-          inTopics;
-
-        if (matchesTopic && matchesKeyword) {
-          filtered.push(tool);
-        }
-      }
-      renderTools(filtered);
-    }
-
-    function escapeHtml(str) {
-      return String(str)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#39;");
-    }
-
-    searchInput.addEventListener("input", filterAndRender);
-
-    initTheme();
-    renderFilterChips(allTools);
-    renderTools(allTools);
-  </script>
-</body>
-</html>
+          if (tool.topics[j].toLowerCase().indexOf(keyword) !== -1)
